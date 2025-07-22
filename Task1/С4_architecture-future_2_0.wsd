@@ -1,0 +1,43 @@
+@startuml Будущее 2.0 - Диаграмма контейнеров
+
+title Диаграмма контейнеров для компании "Будущее 2.0"
+
+!include <C4/C4_Container>
+
+' Контейнеры
+System_Boundary(company, "Будущее 2.0") {
+    Container(cli_ui, "Клиентский интерфейс оператора", "Power Builder", "Интерфейс для работы операторов в клиниках")
+    Container(bi_system, "BI-система", "Power BI", "Аналитика и отчетность")
+    Container(dwh, "DWH", "Microsoft SQL Server 2008", "Хранилище данных")
+    Container(ai_services, "ИИ-сервисы", "Python", "Анализ медицинских данных и диагностика")
+    Container(fintech_services, "Финтех-сервисы", "Golang/Java", "Финансовые услуги и банковские операции")
+    Container(integration_bus, "Интеграционная шина", "Apache Camel", "Оркестрация взаимодействия между сервисами")
+    Container(internal_services, "Внутренние сервисы", "Различные технологии", "Управление клиниками, персоналом и инвентаризацией")
+    Container(data_portal, "Портал самообслуживания", "Веб-технологии", "Витрина данных для аналитики и отчетности")
+}
+
+' Внешние системы
+System_Ext(financial_data, "Внешние финансовые системы", "Банки-партнеры и сторонние фин. организации")
+System_Ext(pharma, "Фармацевтические компании", "Партнеры по поставкам лекарств")
+System_Ext(med_equipment, "Производители мед.оборудования", "Партнеры по оборудованию")
+
+' Связи
+Rel(cli_ui, dwh, "Чтение/запись данных", "JDBC/ODBC")
+Rel(bi_system, dwh, "Запросы данных", "SQL")
+Rel(ai_services, dwh, "Чтение/запись результатов", "API")
+Rel(fintech_services, financial_data, "Обмен финансовыми данными", "API")
+Rel(fintech_services, dwh, "Синхронизация данных", "API")
+Rel(internal_services, dwh, "Чтение/запись операционных данных", "API")
+Rel(integration_bus, dwh, "Интеграция данных", "API")
+Rel(integration_bus, ai_services, "Оркестрация запросов", "API")
+Rel(integration_bus, fintech_services, "Оркестрация транзакций", "API")
+Rel(integration_bus, internal_services, "Управление процессами", "API")
+Rel(data_portal, dwh, "Запросы данных для отчетов", "API")
+Rel(data_portal, bi_system, "Экспорт отчетов", "API")
+Rel(pharma, integration_bus, "Интеграция данных", "API")
+Rel(med_equipment, integration_bus, "Передача данных оборудования", "API")
+
+' Легенда
+SHOW_LEGEND()
+
+@enduml
